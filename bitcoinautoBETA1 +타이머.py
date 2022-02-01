@@ -3,8 +3,8 @@ import pyupbit
 import datetime
 import schedule
 
-access = "WA2kUxxSfcS1LupMU64wrK4rjbCbvbUbP7wMGJwY"
-secret = "pWohyZzG2IxTcmz8bovHLguxgFcbdaqvIRkw0u3w"
+access = 
+secret = 
 
 def goodmorning():
     print("goodmorning")
