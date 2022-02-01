@@ -2,8 +2,8 @@ import time
 import pyupbit
 import datetime
 
-access = "K1izlIYmgptIBMaMhfaZlWh8KlFnUXOxIXmS91pA"
-secret = "x4vnFWp8mViKuunhEZwkAaojIomtTNnzVx6xMIDi"
+access = "WA2kUxxSfcS1LupMU64wrK4rjbCbvbUbP7wMGJwY"
+secret = "pWohyZzG2IxTcmz8bovHLguxgFcbdaqvIRkw0u3w"
 
 K_code = 0.5 # K 상수값
 coin_buy = "KRW-ATOM"
@@ -11,7 +11,6 @@ coin_code = "ATOM"
 coin_volume = "atom"
 
 
-#추가kkkkkkkkkkk
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
@@ -25,11 +24,18 @@ def get_start_time(ticker):
     start_time = df.index[0]
     return start_time
 
-def get_ma15(ticker): # MA버전 추가분
+def get_ma3(ticker): # MA버전 추가분
     """3일 이동 평균선 조회"""
     df = pyupbit.get_ohlcv(ticker, interval="day", count=3)
-    ma15 = df['close'].rolling(3).mean().iloc[-1]
-    return ma15
+    ma3 = df['close'].rolling(3).mean().iloc[-1]
+    return ma3
+
+
+def get_ma5(ticker): # MA버전 추가분
+    """3일 이동 평균선 조회"""
+    df = pyupbit.get_ohlcv(ticker, interval="day", count=5)
+    ma5 = df['close'].rolling(3).mean().iloc[-1]
+    return ma5
 
 def get_balance(ticker):
     """잔고 조회"""
@@ -59,10 +65,11 @@ while True:
 
         if start_time < now < end_time - datetime.timedelta(seconds=10):
             target_price = get_target_price(coin_buy, K_code) # K상수값 K_code
-            ma15 = get_ma15(coin_buy) # MA버전 삽입분
+            ma3 = get_ma3(coin_buy) # MA버전 삽입분
+            ma5 = get_ma5(coin_buy)
             current_price = get_current_price(coin_buy)
             benefit_price = target_price * 1.15 # 익절조건은 매수 후 15%상승시
-            if target_price < current_price and ma15 < current_price and current_price < benefit_price: # MA버전 삽입분
+            if target_price < current_price and ma3 < current_price and current_price < benefit_price and ma3 > ma5: # MA버전 삽입분
                 krw = get_balance("KRW")
                 if krw > 5000:
                     upbit.buy_market_order(coin_buy, krw*0.9995)
