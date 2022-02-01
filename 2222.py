@@ -11,7 +11,7 @@ coin_code = "ATOM"
 coin_volume = "atom"
 
 
-#추가
+#추가kkkkkkkkkkk
 
 def get_target_price(ticker, k):
     """변동성 돌파 전략으로 매수 목표가 조회"""
